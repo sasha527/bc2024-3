@@ -16,26 +16,27 @@ if (!options.input) {
   process.exit(1);
 }
 
-// Читання вхідного файлу
-fs.readFile(options.input, 'utf8', (err, data) => {
-  if (err) {
-    console.error('Cannot find input file');
-    process.exit(1);
-  }
+try {
+  // Читання вмісту файлу
+  const data = fs.readFileSync(options.input, 'utf8');
+  const jsonData = JSON.parse(data);
 
-  // Якщо задано параметр -d, виводимо результат у консоль
+  // Фільтрація даних
+  const filteredData = jsonData
+    .filter(item => item.ku === "13" && item.value > 5)
+    .map(item => item.value);
+
+  // Виведення результатів, якщо вказано параметр -d
   if (options.display) {
-    console.log('File content:', data);
+    console.log('Filtered values:', filteredData.join('\n'));
   }
 
-  // Якщо задано параметр -o, записуємо результат у файл
+  // Запис у файл, якщо вказано параметр -o
   if (options.output) {
-    fs.writeFile(options.output, data, 'utf8', (err) => {
-      if (err) {
-        console.error('Error writing to output file');
-        process.exit(1);
-      }
-      console.log(`Data has been written to ${options.output}`);
-    });
+    fs.writeFileSync(options.output, filteredData.join('\n'), 'utf8');
+    console.log(`Filtered values have been written to ${options.output}`);
   }
-});
+} catch (err) {
+  console.error('Error processing the file:', err.message);
+  process.exit(1);
+}
