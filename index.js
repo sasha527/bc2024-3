@@ -17,7 +17,7 @@ if (!options.input) {
 }
 
 try {
-  //асинхронне читання і далі ми створюємо об'єкт джейсона в консту
+  //синхронне читання і далі ми створюємо об'єкт джейсона в консту
   const data = fs.readFileSync(options.input, 'utf8');
   const jsonData = JSON.parse(data);
 
