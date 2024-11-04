@@ -16,6 +16,10 @@ if (!options.input) {
 }
 
 try {
+<<<<<<< HEAD
+=======
+  //синхронне читання і далі ми створюємо об'єкт джейсона в консту
+>>>>>>> a2935ef70947a6f755677354871f760611f10678
   const data = fs.readFileSync(options.input, 'utf8');
   let jsonData;
 
